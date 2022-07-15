@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 Bonobo = "f7b14807-3d4d-461a-888a-05dd4bca8bc3"
+CSVFiles = "5d742f6a-9f54-50ce-8119-2520741973ca"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Debugger = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -22,8 +23,8 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-MathOptInterface = "1"
 FrankWolfe = "0.2"
+MathOptInterface = "1"
 julia = "1"
 
 [extras]

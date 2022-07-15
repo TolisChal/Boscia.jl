@@ -359,6 +359,8 @@ function Bonobo.optimize!(tree::Bonobo.BnBTree; min_number_lower=20, percentage_
     list_time = Float64[]
     list_num_nodes = Int64[]
     list_lmo_calls = Int64[]
+    active_set_size = 0
+    discarded_set_size = 0
     
     fw_callback = build_FW_callback(tree, min_number_lower, true, FW_iterations)
     callback = build_bnb_callback(tree)
@@ -377,7 +379,7 @@ function Bonobo.optimize!(tree::Bonobo.BnBTree; min_number_lower=20, percentage_
         # println(FW_iterations)
         if isnan(lb) && isnan(ub)
             Bonobo.close_node!(tree, node)
-            list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations, node_infeasible=true)
+            list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls, active_set_size, discarded_set_size = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations, node_infeasible=true)
             continue
         end
 
@@ -385,28 +387,39 @@ function Bonobo.optimize!(tree::Bonobo.BnBTree; min_number_lower=20, percentage_
         # if the evaluated lower bound is worse than the best incumbent -> close and continue
         if node.lb >= tree.incumbent
             Bonobo.close_node!(tree, node)
-            list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations, worse_than_incumbent=true)
+            list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls, active_set_size, discarded_set_size = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations, worse_than_incumbent=true)
             continue
         end
         updated = Bonobo.update_best_solution!(tree, node)
-        updated && Bonobo.bound!(tree, node.id)
+        if updated 
+            Bonobo.bound!(tree, node.id)
+            if isapprox(tree.incumbent, tree.lb; atol=tree.options.atol, rtol=tree.options.rtol)
+                break
+            end 
+        end
 
         Bonobo.close_node!(tree, node)
         #println("branch node")
         Bonobo.branch!(tree, node; percentage_dual_gap=percentage_dual_gap)
-        list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations,)
+        list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls, active_set_size, discarded_set_size = callback(tree, node; FW_time=FW_time, LMO_time=LMO_time, FW_iterations=FW_iterations,)
     end
-     if get(tree.root.options, :verbose, -1)
+    if get(tree.root.options, :verbose, -1)
         println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
         x = Bonobo.get_solution(tree)
         println("objective: ", tree.root.problem.f(x))
-        println("number of nodes: $(tree.num_nodes)")
+        num_nodes = tree.num_nodes
+        println("number of nodes: ", num_nodes)
+        LMO_calls = tree.root.problem.lmo.ncalls
         println("number of lmo calls: ", tree.root.problem.lmo.ncalls)
-        println("time in seconds: ", (Dates.value(Dates.now()-time_ref))/1000)
+        time = Dates.value(Dates.now()-time_ref)
+        println("time in seconds: ", time/1000)
         append!(list_ub, copy(tree.incumbent))
         append!(list_lb, copy(tree.lb))
+        append!(list_time, time)
+        append!(list_num_nodes, num_nodes)
+        append!(list_lmo_calls, copy(LMO_calls))
     end
-    return list_lb::Vector{Float64}, list_ub::Vector{Float64}, iteration::Int, time, list_time::Vector{Float64}, list_num_nodes::Vector{Int64}, list_lmo_calls::Vector{Int64}
+    return list_lb::Vector{Float64}, list_ub::Vector{Float64}, iteration::Int, time, list_time::Vector{Float64}, list_num_nodes::Vector{Int64}, list_lmo_calls::Vector{Int64}, active_set_size, discarded_set_size
 end
 
 function Bonobo.branch!(tree, node; percentage_dual_gap)

@@ -134,6 +134,6 @@ function build_bnb_callback(tree)
             @printf("|   %4i|     %4i| \t% 06.5f|    %.5f|    %.5f|     %.3f|     %6i ms|      %4i ms|   %6i ms|   %6i ms|            %5i|          %5i|            %5i|               %5i|\n", iteration, node.id, tree.lb, tree.incumbent, dual_gap, dual_gap/tree.incumbent, time, round(time/tree.num_nodes), FW_time, LMO_time, tree.root.problem.lmo.ncalls, FW_iter, active_set_size, discarded_set_size)
         end
         FW_iter = []
-        return list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls
+        return list_lb, list_ub, iteration, time, list_time, list_num_nodes, list_lmo_calls, active_set_size, discarded_set_size
     end
 end
