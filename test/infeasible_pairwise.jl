@@ -57,7 +57,7 @@ Random.seed!(1)
     tree = Bonobo.initialize(; 
         traverse_strategy = Bonobo.BFS(),
         Node = typeof(nodeEx),
-        root = (problem=m, current_node_id = current_node_id = Ref{Int}(0)),
+        root = (problem=m, current_node_id = Ref{Int}(0), updated_incumbent = Ref{Bool}(false)),
     )
     Bonobo.set_root!(tree, 
         (valid_active = Bool[], 
