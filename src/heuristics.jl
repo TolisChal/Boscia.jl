@@ -26,7 +26,7 @@ function find_best_solution(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.Var
     return (best_v, best_val)
 end
 
-function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
+function find_best_solution_2(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
     println("use HiGHS")
     sols_vec =
         unsafe_wrap(Vector{Ptr{Cvoid}}, SCIP.LibSCIP.SCIPgetSols(o), SCIP.LibSCIP.SCIPgetNSols(o))
