@@ -4,7 +4,10 @@ Finds the best solution in the SCIP solution storage, based on the objective fun
 Returns the solution vector and the corresponding best value.
 """
 function find_best_solution(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.VariableIndex})
-    println(vars)
+    println("vas: ")
+    for var in vars
+        println(var)
+    end
     sols_vec =
         unsafe_wrap(Vector{Ptr{Cvoid}}, SCIP.LibSCIP.SCIPgetSols(o), SCIP.LibSCIP.SCIPgetNSols(o))
     println(sols_vec)
