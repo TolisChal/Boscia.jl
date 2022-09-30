@@ -165,6 +165,8 @@ function solve(
     )
 
     fw_callback = build_FW_callback(tree, min_number_lower, true, fw_iterations)
+    println("fw_callback: ")
+    println(fw_callback)
 
     tree.root.options[:callback] = fw_callback
     tree.root.current_node_id[] = Bonobo.get_next_node(tree, tree.options.traverse_strategy).id
