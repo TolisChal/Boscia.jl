@@ -137,7 +137,7 @@ function is_linear_feasible_subroutine(o::MOI.ModelLike, ::Type{F}, ::Type{S}, v
         #scip_tol = MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
         #println("scip_tol = ")
         #println(scip_tol)
-        scip_tol = 1.0e-6
+        scip_tol = 1e-6
         if dist > 20.0 * scip_tol
             return false
         end
