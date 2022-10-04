@@ -46,7 +46,7 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     #sols_vec =
     #    unsafe_wrap(Vector{Ptr{Cvoid}}, SCIP.LibSCIP.SCIPgetSols(o), SCIP.LibSCIP.SCIPgetNSols(o))
     #println(sols_vec)
-    best_val = Inf
+    best_val = 7.5
     best_v = nothing
     #println("sols: ")
     #for sol in sols_vec
