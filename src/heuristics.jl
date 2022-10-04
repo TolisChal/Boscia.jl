@@ -3,7 +3,7 @@
 Finds the best solution in the SCIP solution storage, based on the objective function `f`.
 Returns the solution vector and the corresponding best value.
 """
-import HiGHS
+#import HiGHS
 
 function find_best_solution2(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.VariableIndex})
     println("vars: ")
