@@ -5,7 +5,7 @@ Returns the solution vector and the corresponding best value.
 """
 #import HiGHS
 
-function find_best_solution2(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.VariableIndex})
+function find_best_solution(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.VariableIndex})
     #println("vars: ")
     #for var in vars
     #    #println(var)
@@ -28,7 +28,8 @@ function find_best_solution2(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.Va
         end
     end
     println(best_v)
-    println("---------------------------\n")
+    println(best_val)
+    println("-------------SCIP--------------\n")
     @assert isfinite(best_val)
     return (best_v, best_val)
 end
@@ -64,7 +65,7 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     #        best_v = v
     #    end
     #end
-    println("---------------------------\n")
+    println("------------HiGHS---------------\n")
     #@assert isfinite(best_val)
     return (best_v, best_val)
 end
