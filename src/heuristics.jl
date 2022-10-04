@@ -35,12 +35,12 @@ function find_best_solution(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.Var
 end
 
 function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
-
+    println(Highs_getNumCol(o))
     col_value = Vector{Float64}(undef, 6)
     col_dual = Vector{Float64}(undef, 6)
     row_value = Vector{Float64}(undef, 6)
     row_dual = Vector{Float64}(undef, 6)
-    HiGHS.Highs_getSolution(o, col_value, col_dual, row_value, row_dual)
+    HiGHS.Highs_getSolution(o, col_value, Vector{Ptr{Cvoid}}, Vector{Ptr{Cvoid}}, Vector{Ptr{Cvoid}})
     println(col_value)
     #println(col_dual)
     #println(row_value)
