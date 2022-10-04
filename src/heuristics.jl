@@ -47,6 +47,6 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     best_v = col_value
     println(val)
     println("------------HiGHS2---------------\n")
-    @assert isfinite(best_val)
+    @assert isfinite(val)
     return (col_value, val)
 end
