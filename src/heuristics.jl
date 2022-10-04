@@ -30,7 +30,7 @@ function find_best_solution2(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.Va
     return (best_v, best_val)
 end
 
-function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
+function find_best_solution(f::Function, o, vars::Vector{MOI.VariableIndex})
 
     col_value = Vector{Float64}(undef, 6)
     col_dual = Vector{Float64}(undef, 6)
