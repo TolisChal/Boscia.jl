@@ -3,7 +3,6 @@ using FrankWolfe
 using Test
 using Random
 using SCIP
-using HiGHS
 using LinearAlgebra
 using Distributions
 import MathOptInterface
@@ -22,8 +21,7 @@ const Mi = (Ai + Ai') / 2
 
 
 @testset "Buchheim et. al. example" begin
-    #o = SCIP.Optimizer()
-    o = HiGHS.Optimizer()
+    o = SCIP.Optimizer()
     MOI.set(o, MOI.Silent(), true)
     MOI.empty!(o)
     x = MOI.add_variables(o, n)
