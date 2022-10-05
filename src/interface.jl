@@ -527,7 +527,7 @@ function postsolve(tree, result, time_ref, verbose=false)
 end
 
 function free_model(o::SCIP.Optimizer)
-    SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
+    SCIP.SCIPfreeTransform(o)
 end
 
 function free_model(o::HiGHS.Optimizer)
