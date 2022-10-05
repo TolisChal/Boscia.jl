@@ -451,7 +451,7 @@ function postsolve(tree, result, time_ref, verbose=false)
 
     MOI.set(tree.root.problem.lmo.lmo.o, MOI.Silent(), true)
     #SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
-    free_model(tree.root.problem.lmo.lmo.o)
+    #free_model(tree.root.problem.lmo.lmo.o)
     println("[1]postsolve")
     #HiGHS.finalize(tree.root.problem.lmo.lmo.o)
     build_LMO(
@@ -527,6 +527,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         println("\t LMO calls / node: $(tree.root.problem.lmo.ncalls / tree.num_nodes)\n")
     end
     println("postsolve completed")
+    free_model(tree.root.problem.lmo.lmo.o)
     return x
 end
 
@@ -536,7 +537,10 @@ end
 
 function free_model(o::MOI.ModelLike)
     println("starting finalize")
-    finalize(o)
+    println(MOI.is_empty(o))
+    if (!(MOI.is_empty(o)))
+        finalize(o)
+    end
     println("finalize done")
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
