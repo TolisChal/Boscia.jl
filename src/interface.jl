@@ -452,6 +452,7 @@ function postsolve(tree, result, time_ref, verbose=false)
     MOI.set(tree.root.problem.lmo.lmo.o, MOI.Silent(), true)
     #SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
     free_model(tree.root.problem.lmo.lmo.o)
+    println("[1]postsolve")
     #HiGHS.finalize(tree.root.problem.lmo.lmo.o)
     build_LMO(
         tree.root.problem.lmo,
@@ -459,6 +460,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         fix_bounds,
         tree.root.problem.integer_variables,
     )
+    println("[1]postsolve")
     # Postprocessing
     direction = ones(length(x))
     v = compute_extreme_point(tree.root.problem.lmo, direction)
@@ -474,6 +476,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         verbose=verbose,
         max_iteration=10000,
     )
+    println("[1]postsolve")
 
     status_string = "FIX ME" # should report "feasible", "optimal", "infeasible", "gap tolerance met"
     if isempty(tree.nodes)
@@ -523,7 +526,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         println("\t Nodes / sec: ", tree.num_nodes / total_time_in_sec)
         println("\t LMO calls / node: $(tree.root.problem.lmo.ncalls / tree.num_nodes)\n")
     end
-
+    println("postsolve completed")
     return x
 end
 
