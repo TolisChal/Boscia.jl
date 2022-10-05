@@ -522,7 +522,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         println("\t Nodes / sec: ", tree.num_nodes / total_time_in_sec)
         println("\t LMO calls / node: $(tree.root.problem.lmo.ncalls / tree.num_nodes)\n")
     end
-
+    free_model(tree.root.problem.lmo.lmo.o)
     return x
 end
 
