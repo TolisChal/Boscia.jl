@@ -31,12 +31,11 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     col_dual = Vector{Float64}(undef, ncol)
     row_value = Vector{Float64}(undef, nrow)
     row_dual = Vector{Float64}(undef, nrow)
+
     HiGHS.Highs_getSolution(o, col_value, col_dual, row_value, row_dual)
-    println(col_value)
     val = f(col_value)
     best_v = col_value
-    println(val)
-    println("------------HiGHS2---------------\n")
+    
     @assert isfinite(val)
     return (col_value, val)
 end
