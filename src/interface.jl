@@ -532,7 +532,7 @@ function free_model(o::SCIP.Optimizer)
 end
 
 function free_model(o::HiGHS.Optimizer)
-    finalize(o)
+    HiGHS.finalize(o)
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
     #MOI.empty!(o)
