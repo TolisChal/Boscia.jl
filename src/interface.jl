@@ -533,5 +533,5 @@ end
 function free_model(o::HiGHS.Optimizer)
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
-    MOI.empty!(o)
+    #MOI.empty!(o)
 end
