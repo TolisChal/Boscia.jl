@@ -451,7 +451,7 @@ function postsolve(tree, result, time_ref, verbose=false)
 
     MOI.set(tree.root.problem.lmo.lmo.o, MOI.Silent(), true)
     #SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
-    free_model(tree.root.problem.lmo.lmo.o)
+    #free_model(tree.root.problem.lmo.lmo.o)
     build_LMO(
         tree.root.problem.lmo,
         tree.root.problem.integer_variable_bounds,
