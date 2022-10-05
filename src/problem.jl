@@ -135,12 +135,22 @@ function is_linear_feasible_subroutine(o::MOI.ModelLike, ::Type{F}, ::Type{S}, v
         @debug("Constraint: $(F)-$(S) $(func) = $(val) in $(set)")
         dist = MOD.distance_to_set(MOD.DefaultDistance(), val, set)
         #scip_tol = MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
+        tol = get_tol(o)
+        println("tol = ", tol)
         tol = 1.0e-06
         if dist > 20.0 * tol
             return false
         end
     end
     return true
+end
+
+function get_tol(o::SCIP.Optimizer)
+    return MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
+end
+
+function get_tol(o::HiGHS.Optimizer)
+    return MOI.get(o, MOI.RawOptimizerAttribute("feastol"))
 end
 
 is_linear_feasible(lmo::TimeTrackingLMO, v::AbstractVector) = is_linear_feasible(lmo.lmo.o, v)
