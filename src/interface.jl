@@ -450,8 +450,6 @@ function postsolve(tree, result, time_ref, verbose=false)
     end
 
     MOI.set(tree.root.problem.lmo.lmo.o, MOI.Silent(), true)
-    #SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
-    #free_model(tree.root.problem.lmo.lmo.o)
     build_LMO(
         tree.root.problem.lmo,
         tree.root.problem.integer_variable_bounds,
@@ -505,6 +503,8 @@ function postsolve(tree, result, time_ref, verbose=false)
     total_time_in_sec = (Dates.value(Dates.now() - time_ref)) / 1000.0
     result[:total_time_in_sec] = total_time_in_sec
 
+    free_model(tree.root.problem.lmo.lmo.o)
+
     if verbose
         println()
 
@@ -522,7 +522,7 @@ function postsolve(tree, result, time_ref, verbose=false)
         println("\t Nodes / sec: ", tree.num_nodes / total_time_in_sec)
         println("\t LMO calls / node: $(tree.root.problem.lmo.ncalls / tree.num_nodes)\n")
     end
-    free_model(tree.root.problem.lmo.lmo.o)
+
     return x
 end
 
