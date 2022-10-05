@@ -540,7 +540,7 @@ function free_model(o::MOI.ModelLike)
     println("starting finalize")
     println(MOI.is_empty(o))
     if (!(MOI.is_empty(o)))
-        println("is not empty")
+        println("[2] is not empty")
         MOI.empty!(o)
         #finalize(o)
     end
