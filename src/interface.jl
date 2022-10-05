@@ -451,8 +451,8 @@ function postsolve(tree, result, time_ref, verbose=false)
 
     MOI.set(tree.root.problem.lmo.lmo.o, MOI.Silent(), true)
     #SCIP.SCIPfreeTransform(tree.root.problem.lmo.lmo.o)
-    #free_model(tree.root.problem.lmo.lmo.o)
-    HiGHS.finalize(tree.root.problem.lmo.lmo.o)
+    free_model(tree.root.problem.lmo.lmo.o)
+    #HiGHS.finalize(tree.root.problem.lmo.lmo.o)
     build_LMO(
         tree.root.problem.lmo,
         tree.root.problem.integer_variable_bounds,
@@ -531,10 +531,10 @@ function free_model(o::SCIP.Optimizer)
     SCIP.SCIPfreeTransform(o)
 end
 
-function free_model(o::HiGHS.Optimizer)
-    #println("starting finalize")
+function free_model(o::MOI.ModelLike)
+    println("starting finalize")
     finalize(o)
-    #println("finalize done")
+    println("finalize done")
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
     #MOI.empty!(o)
