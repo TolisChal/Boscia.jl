@@ -532,9 +532,9 @@ function free_model(o::SCIP.Optimizer)
 end
 
 function free_model(o::HiGHS.Optimizer)
-    println("starting finalize")
-    HiGHS.finalize(o)
-    println("finalize done")
+    #println("starting finalize")
+    finalize(o)
+    #println("finalize done")
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
     #MOI.empty!(o)
