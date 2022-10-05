@@ -536,7 +536,7 @@ function free_model(o::SCIP.Optimizer)
 end
 
 function free_model(o::MOI.ModelLike)
-    gc()
+    
     println("starting finalize")
     println(MOI.is_empty(o))
     if (!(MOI.is_empty(o)))
@@ -544,6 +544,7 @@ function free_model(o::MOI.ModelLike)
         #finalize(o)
     end
     println("finalize done")
+    GC.gc()
     #HiGHS.Highs_clearModel(o)
     #HiGHS.Highs_destroy(o)
     #MOI.empty!(o)
