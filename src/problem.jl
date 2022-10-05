@@ -150,7 +150,7 @@ function get_tol(o::SCIP.Optimizer)
 end
 
 function get_tol(o::HiGHS.Optimizer)
-    return MOI.get(o, MOI.RawOptimizerAttribute("feastol"))
+    return MOI.get(o, MOI.RawOptimizerAttribute("tol"))
 end
 
 is_linear_feasible(lmo::TimeTrackingLMO, v::AbstractVector) = is_linear_feasible(lmo.lmo.o, v)
