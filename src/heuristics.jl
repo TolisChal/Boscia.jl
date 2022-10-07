@@ -9,7 +9,10 @@ function find_best_solution(f::Function, o::SCIP.Optimizer, vars::Vector{MOI.Var
     best_val = Inf
     best_v = nothing
     for sol in sols_vec
+        println(sol)
+        println(vars)
         v = SCIP.sol_values(o, vars, sol)
+        print(v)
         val = f(v)
         if val < best_val
             best_val = val
@@ -25,6 +28,12 @@ Finds the best solution in the HiGHS solution storage, based on the objective fu
 Returns the solution vector and the corresponding best value.
 """
 function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
+    println("-------------------")
+    for var in vars
+        println(var)
+    end
+    println(vars)
+    println("-------------------")
     ncol = Highs_getNumCol(o)
     nrow = Highs_getNumRow(o)
     col_value = Vector{Float64}(undef, ncol)
