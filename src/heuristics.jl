@@ -33,9 +33,10 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
         println(var)
     end
     println(vars)
-    println("-------------------")
     ncol = Highs_getNumCol(o)
     nrow = Highs_getNumRow(o)
+    println("ncol = ", ncol)
+    println("-------------------")
     col_value = Vector{Float64}(undef, ncol)
     col_dual = Vector{Float64}(undef, ncol)
     row_value = Vector{Float64}(undef, nrow)
