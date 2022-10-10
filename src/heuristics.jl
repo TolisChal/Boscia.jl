@@ -42,7 +42,11 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     row_value = Vector{Float64}(undef, nrow)
     row_dual = Vector{Float64}(undef, nrow)
 
+    println(vars)
+    println("\n")
     ordered_indices = [MathOptInterface.VariableIndex(j) for j in 1:ncol]
+    println(ordered_indices)
+    println("\n")
     indices = [i[1][2] for i in [findall( x -> x == ordered_indices[j], vars) for j in 1:ncol]]
     println(indices)
     col_value = col_value[indices]
