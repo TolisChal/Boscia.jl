@@ -51,8 +51,10 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     for j in 1:ncol
         cc = findall( x -> x == ordered_indices[j], vars)
         println(cc)
-        println(cc[1][2])
-        indices[j] = cc[1][2]
+        println(cc[1])
+        indices[j] = cc[1]
+        println(indices)
+        println("\n")
     end
     #indices = [i[1][2] for i in [findall( x -> x == ordered_indices[j], vars) for j in 1:ncol]]
     println(indices)
