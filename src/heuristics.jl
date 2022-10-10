@@ -29,10 +29,10 @@ Returns the solution vector and the corresponding best value.
 """
 function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.VariableIndex})
     println("-------------------")
-    for var in vars
-        println(var)
-    end
-    println(vars)
+    #for var in vars
+    #    println(var)
+    #end
+    #println(vars)
     ncol = Highs_getNumCol(o)
     nrow = Highs_getNumRow(o)
     println("ncol = ", ncol)
@@ -41,13 +41,20 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     col_dual = Vector{Float64}(undef, ncol)
     row_value = Vector{Float64}(undef, nrow)
     row_dual = Vector{Float64}(undef, nrow)
+    indices = Vector{Int64}(undef, ncol)
 
     println(vars)
     println("\n")
-    ordered_indices = [MathOptInterface.VariableIndex(j) for j in 1:ncol]
+    ordered_indices = [MOI.VariableIndex(j) for j in 1:ncol]
     println(ordered_indices)
     println("\n")
-    indices = [i[1][2] for i in [findall( x -> x == ordered_indices[j], vars) for j in 1:ncol]]
+    for j in 1:ncol
+        cc = findall( x -> x == ordered_indices[j], vars)
+        println(cc)
+        println(cc[1][2])
+        indices[j] = cc[1][2]
+    end
+    #indices = [i[1][2] for i in [findall( x -> x == ordered_indices[j], vars) for j in 1:ncol]]
     println(indices)
     col_value = col_value[indices]
     println("-------------------")
