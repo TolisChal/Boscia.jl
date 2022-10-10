@@ -36,11 +36,17 @@ function find_best_solution(f::Function, o::HiGHS.Optimizer, vars::Vector{MOI.Va
     ncol = Highs_getNumCol(o)
     nrow = Highs_getNumRow(o)
     println("ncol = ", ncol)
-    println("-------------------")
+    
     col_value = Vector{Float64}(undef, ncol)
     col_dual = Vector{Float64}(undef, ncol)
     row_value = Vector{Float64}(undef, nrow)
     row_dual = Vector{Float64}(undef, nrow)
+
+    ordered_indices = [MathOptInterface.VariableIndex(j) for j in 1:ncol]
+    indices = [i[1][2] for i in [findall( x -> x == ordered_indices[j], vars) for j in 1:ncol]]
+    println(indices)
+    col_value = col_value[indices]
+    println("-------------------")
 
     HiGHS.Highs_getSolution(o, col_value, col_dual, row_value, row_dual)
     val = f(col_value)
