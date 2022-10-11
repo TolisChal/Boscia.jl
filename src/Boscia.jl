@@ -6,6 +6,7 @@ using SCIP
 using HiGHS
 import MathOptInterface
 import Bonobo
+using LinearAlgebra
 using Printf
 using Dates
 const MOI = MathOptInterface
