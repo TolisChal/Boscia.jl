@@ -4,7 +4,8 @@ function solve_quadratic_convex(Q::Matrix{Float64}, u::Vector{Float64})
         return dot(x, Q, x) + dot(u, x)
     end
     function grad!(storage, x::Vector{Float64})
-        @. storage = Q*x .+ u
+        storage = Q*x .+ u
+        return storage
     end
 
     n = length(u)

@@ -1,5 +1,5 @@
 using Boscia
-#using FrankWolfe
+using FrankWolfe
 using Random
 using HiGHS
 using LinearAlgebra
@@ -11,9 +11,10 @@ n = 6
 
 Q = rand(n,n)
 Q = Q'*Q
-u = rand(n)
+u = -rand(n)
 
 x = Boscia.solve_quadratic_convex(Q, u)
+
 
 println("sol: ", x)
 pritln("value: ", x'*Q*x)
