@@ -24,6 +24,7 @@ include("infeasible_pairwise.jl")
 include("heuristics.jl")
 include("strong_branching.jl")
 include("utilities.jl")
+include("quadratic_convex_problem.jl")
 include("interface.jl")
 
 end # module
