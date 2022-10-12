@@ -1,8 +1,8 @@
 using Boscia
-using FrankWolfe
+#using FrankWolfe
 using Random
 using HiGHS
-using LinearAlgebra
+#using LinearAlgebra
 import MathOptInterface
 
 const MOI = MathOptInterface
@@ -13,36 +13,9 @@ Q = rand(n,n)
 Q = Q'*Q
 u = -rand(n)
 
-#x = Boscia.solve_quadratic_convex(Q, u)
-
-#println("sol: ", x)
-#println("value: ", x'*Q*x)
-
-function f(x::Vector{Float64})
-    return dot(x, Q, x) + dot(u, x)
-end
-function grad!(storage, x::Vector{Float64})
-    storage = Q*x .+ u
-    return storage
-end
-
-n = length(u)
-
-o = HiGHS.Optimizer()
-MOI.set(o, MOI.Silent(), true)
-
-x = MOI.add_variables(o, n)
-
-for xi in x
-    MOI.add_constraint(o, xi, MOI.GreaterThan(0.0))
-    MOI.add_constraint(o, xi, MOI.LessThan(1.0))
-    MOI.add_constraint(o, xi, MOI.ZeroOne())
-end
-lmo = FrankWolfe.MathOptLMO(o)
-
-x, _, result = Boscia.solve(f, grad!, lmo, verbose=true)
-
+x = Boscia.solve_quadratic_convex(Q, u)
 
 println("sol: ", x)
 println("value: ", x'*Q*x)
+
 
