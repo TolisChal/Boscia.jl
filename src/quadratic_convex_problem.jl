@@ -1,4 +1,7 @@
-Base.@ccallable function solve_quadratic_convex(Q::Matrix{Float64}, u::Vector{Float64})::Vector{Float64}
+Base.@ccallable function solve_quadratic_convex2(Qp::Ptr{Cdouble}, up::Ptr{Cdouble}, len::Csize_t)::Ptr{Cdouble}
+
+    Q = unsafe_wrap(Matrix{Float64}, Qp, (len,len))
+    u = unsafe_wrap(Vector{Float64}, up, (len,))
 
     function f(x::Vector{Float64})
         return dot(x, Q, x) + dot(u, x)
@@ -23,6 +26,6 @@ Base.@ccallable function solve_quadratic_convex(Q::Matrix{Float64}, u::Vector{Fl
     lmo = FrankWolfe.MathOptLMO(o)
     
     y, _, result = Boscia.solve(f, grad!, lmo, verbose=true)
-
-    return y
+    
+    return pointer(y)
 end
