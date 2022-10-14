@@ -1,4 +1,4 @@
-function solve_quadratic_convex(Q::Matrix{Float64}, u::Vector{Float64})
+Base.@ccallable function solve_quadratic_convex(Q::Matrix{Float64}, u::Vector{Float64})
 
     function f(x::Vector{Float64})
         return dot(x, Q, x) + dot(u, x)
