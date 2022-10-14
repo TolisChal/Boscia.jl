@@ -1,4 +1,4 @@
-Base.@ccallable function solve_quadratic_convex2(Qp::Ptr{Cdouble}, up::Ptr{Cdouble}, len::Csize_t)::Ptr{Cdouble}
+Base.@ccallable function solve_quadratic_convex(Qp::Ptr{Cdouble}, up::Ptr{Cdouble}, len::Csize_t)::Ptr{Cdouble}
 
     Q = unsafe_wrap(Matrix{Float64}, Qp, (len,len))
     u = unsafe_wrap(Vector{Float64}, up, (len,))
